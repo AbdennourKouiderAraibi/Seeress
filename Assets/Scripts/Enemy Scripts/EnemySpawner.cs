@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
     [SerializeField] private GameObject[] enemyReference;
-    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Transform pointA, pointB;
 
     private GameObject spawnedEnemy;
     private int randomIndex;
-    private int spawnPointIndex;
+    private int randomSide;
 
     private void Start() {
         StartCoroutine(SpawnMonsters());
@@ -18,9 +18,19 @@ public class EnemySpawner : MonoBehaviour {
             yield return new WaitForSeconds(Random.Range(1, 5));
 
             randomIndex = Random.Range(0, enemyReference.Length);
-            spawnPointIndex = Random.Range(0, spawnPoints.Length);
+            randomSide = Random.Range(0, 2);
 
-            Instantiate(enemyReference[randomIndex], spawnPoints[spawnPointIndex].position, Quaternion.identity);
+            spawnedEnemy = Instantiate(enemyReference[randomIndex]);
+
+            if (randomSide == 0) {
+                spawnedEnemy.transform.position = pointA.position;
+                spawnedEnemy.GetComponent<Enemy>().moveSpeed = Random.Range(4, 10);
+            }
+            else {
+                spawnedEnemy.transform.position = pointB.position;
+                spawnedEnemy.GetComponent<Enemy>().moveSpeed = -Random.Range(4, 10);
+                spawnedEnemy.transform.localScale = new Vector3(-1f, 1f, 1f);
+            }
         }
     }
 }

@@ -1,28 +1,38 @@
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-    public float moveSpeed = 3f;
-    public int damageAmount = 10;
+    public float moveSpeed = 5f;
+    public float detectionRange = 1f;
 
+    private Rigidbody2D myBody;
+    private bool isPlayerDetected = false;
     private Transform player;
 
+    private void Awake() {
+        myBody = GetComponent<Rigidbody2D>();
+    }
+
     private void Start() {
-        player = GameObject.FindWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    private void Update() {
-        if (player != null) {
-            Vector2 direction = (player.position - transform.position).normalized;
-            transform.position += (Vector3)(direction * moveSpeed * Time.deltaTime);
-        }
-    }
+    private void FixedUpdate() {
+        if (player == null) return;
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.CompareTag("Player")) {
-            PlayerBehaviour player = collision.gameObject.GetComponent<PlayerBehaviour>();
-            if (player != null) {
-                player.TakeDamage(damageAmount);
-            }
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        if (distanceToPlayer <= detectionRange) {
+            isPlayerDetected = true;
         }
+
+        if (isPlayerDetected) {
+            float direction = Mathf.Sign(player.position.x - transform.position.x);
+            myBody.linearVelocity = new Vector2(direction * moveSpeed, myBody.linearVelocity.y);
+        }
+        else {
+            myBody.linearVelocity = new Vector2(0f, myBody.linearVelocity.y);
+        }
+
+        myBody.linearVelocity = new Vector2(moveSpeed, myBody.linearVelocity.y);
     }
 }

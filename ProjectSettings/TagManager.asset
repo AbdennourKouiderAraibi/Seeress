@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CropPlot
   - Wall
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX

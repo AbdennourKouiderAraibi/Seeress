@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour {
     [SerializeField] private float moveSpeed = 5f;
@@ -38,7 +39,7 @@ public class PlayerBehaviour : MonoBehaviour {
             }
         }
 
-        if (Input.GetMouseButtonDown(1)) { // Right-click
+        if (Input.GetMouseButtonDown(0)) {
             Attack();
         }
     }
@@ -56,7 +57,7 @@ public class PlayerBehaviour : MonoBehaviour {
         }
     }
 
-    // Handles the player's different interactions
+    // Handles the player's different interactions with the soil
     private void TryPlantSeedNearby() {
         Collider2D[] nearbySoils = Physics2D.OverlapCircleAll(transform.position, interactRange, soilLayer);
 
@@ -97,6 +98,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
         if (currentHealth <= 0) {
             Die();
+            SceneManager.LoadScene("GameOver");
         }
     }
 

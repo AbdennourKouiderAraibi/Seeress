@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     public void StartGame() {
-        SceneManager.LoadScene("MainGame");
+        SceneManager.LoadScene("Intro");
     }
 
     public void ExitGame() {

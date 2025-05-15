@@ -226,7 +226,7 @@ MonoBehaviour:
   - {fileID: 8100916153342719361}
   - {fileID: 1866552004968571053}
   - {fileID: 976678686717021773}
-  timeBetweenStages: 5
+  timeBetweenStages: 6
 --- !u!61 &298047136779158768
 BoxCollider2D:
   m_ObjectHideFlags: 0

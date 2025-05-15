@@ -4,10 +4,26 @@ public class Enemy : MonoBehaviour {
     public float moveSpeed = 3f;
     public int damageAmount = 10;
 
+    public int maxHealth = 3;
+    private int currentHealth;
+
     private Transform player;
 
     private void Start() {
         player = GameObject.FindWithTag("Player").transform;
+        currentHealth = maxHealth;
+    }
+
+    public void TakeDamage(int damage) {
+        currentHealth -= damage;
+        if (currentHealth <= 0) {
+            Die();
+        }
+    }
+
+    void Die() {
+        // Add death animation/effects here
+        Destroy(gameObject);
     }
 
     private void Update() {

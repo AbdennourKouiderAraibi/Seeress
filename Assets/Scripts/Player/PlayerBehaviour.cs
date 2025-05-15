@@ -6,6 +6,11 @@ public class PlayerBehaviour : MonoBehaviour {
     private Rigidbody2D rb;
     private Vector2 movement;
 
+    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private int attackDamage = 1;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private Transform attackPoint;
+
     // Crop data
     [SerializeField] private GameObject[] seedPrefabs;
     [SerializeField] private float interactRange = 1.5f;
@@ -32,10 +37,23 @@ public class PlayerBehaviour : MonoBehaviour {
                 TryPlantSeedNearby();
             }
         }
+
+        if (Input.GetMouseButtonDown(1)) { // Right-click
+            Attack();
+        }
     }
 
     private void FixedUpdate() {
         rb.linearVelocity = movement.normalized * moveSpeed;
+    }
+
+    void Attack() {
+        // Show animation/sound if you have any
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+
+        foreach (Collider2D enemy in hitEnemies) {
+            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
     }
 
     // Handles the player's different interactions
